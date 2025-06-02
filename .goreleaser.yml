@@ -59,38 +59,36 @@ release:
   name_template: "{{.ProjectName}} v{{.Version}}"
   extra_files:
     - glob: ./since.yaml
-  release_notes:
-    mode: replace
-    header: |
-      ## mempeak {{.Tag}}
-      
-      A Unix command-line tool to monitor peak memory usage of processes.
-    footer: |
-      
-      ---
-      
-      **Installation**
-      
-      Download the appropriate binary for your platform from the assets below, or use:
-      
-      ```bash
-      # Homebrew (macOS/Linux)
-      brew install outofcoffee/tap/mempeak
-      
-      # Go install
-      go install github.com/outofcoffee/mempeak@{{.Tag}}
-      ```
-      
-      **Usage**
-      
-      ```bash
-      mempeak <command> [args...]
-      ```
-      
-      Example:
-      ```bash
-      mempeak python script.py
-      ```
+  header: |
+    ## mempeak {{.Tag}}
+    
+    A Unix command-line tool to monitor peak memory usage of processes.
+  footer: |
+    
+    ---
+    
+    **Installation**
+    
+    Download the appropriate binary for your platform from the assets below, or use:
+    
+    ```bash
+    # Homebrew (macOS/Linux)
+    brew install outofcoffee/tap/mempeak
+    
+    # Go install
+    go install github.com/outofcoffee/mempeak@{{.Tag}}
+    ```
+    
+    **Usage**
+    
+    ```bash
+    mempeak <command> [args...]
+    ```
+    
+    Example:
+    ```bash
+    mempeak python script.py
+    ```
 
 brews:
   - name: mempeak
