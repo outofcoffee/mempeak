@@ -33,12 +33,12 @@ func TestGetMemoryUsage(t *testing.T) {
 	// Test with current process PID
 	pid := os.Getpid()
 	memory := getMemoryUsage(pid)
-	
+
 	// Memory usage should be greater than 0 for a running process
 	if memory == 0 {
 		t.Errorf("getMemoryUsage(%d) returned 0, expected > 0", pid)
 	}
-	
+
 	// Test with invalid PID
 	invalidPid := 999999
 	memory = getMemoryUsage(invalidPid)
