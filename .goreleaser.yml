@@ -109,9 +109,9 @@ nfpms:
   - file_name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     homepage: https://github.com/outofcoffee/mempeak
     description: Monitor peak memory usage of processes, similar to 'time' but for memory
-    maintainer: OutOfCoffee <noreply@outofcoffee.dev>
+    maintainer: outofcoffee <outofcoffee@gmail.com>
     license: MIT
-    vendor: OutOfCoffee
+    vendor: outofcoffee
     bindir: /usr/bin
     section: utils
     contents:
@@ -131,7 +131,7 @@ aurs:
     homepage: https://github.com/outofcoffee/mempeak
     description: Monitor peak memory usage of processes, similar to 'time' but for memory
     maintainers:
-      - 'OutOfCoffee <noreply at outofcoffee dot dev>'
+      - 'outofcoffee <outofcoffee at gmail dot com>'
     license: MIT
     private_key: '{{ .Env.AUR_KEY }}'
     git_url: 'ssh://aur@aur.archlinux.org/mempeak-bin.git'
