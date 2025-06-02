@@ -64,6 +64,7 @@ jobs:
         args: release --clean --release-notes=release_notes.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
 
   build-snapshot:
     needs: test

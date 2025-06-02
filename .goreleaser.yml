@@ -95,8 +95,7 @@ brews:
     repository:
       owner: outofcoffee
       name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    folder: Formula
+      token: "{{ .Env.GH_RELEASE_TOKEN }}"
     homepage: https://github.com/outofcoffee/mempeak
     description: "Monitor peak memory usage of processes, similar to 'time' but for memory"
     license: MIT
@@ -124,20 +123,3 @@ nfpms:
     - termux.deb
     - archlinux
 
-aurs:
-  - name: mempeak-bin
-    homepage: https://github.com/outofcoffee/mempeak
-    description: Monitor peak memory usage of processes, similar to 'time' but for memory
-    maintainers:
-      - 'outofcoffee <outofcoffee at gmail dot com>'
-    license: MIT
-    private_key: '{{ .Env.AUR_KEY }}'
-    git_url: 'ssh://aur@aur.archlinux.org/mempeak-bin.git'
-    depends:
-      - glibc
-    package: |-
-      # bin
-      install -Dm755 "./mempeak" "${pkgdir}/usr/bin/mempeak"
-      
-      # license
-      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/mempeak/LICENSE"
