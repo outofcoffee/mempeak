@@ -1,0 +1,8 @@
+requireBranch: main
+
+ignore:
+  - "chore: update dependencies"
+
+before:
+  - script: |
+      go test -v ./...
