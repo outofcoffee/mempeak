@@ -21,6 +21,18 @@ A Unix command-line tool to monitor peak memory usage of processes, similar to `
 
 ## Installation
 
+### Homebrew (macOS/Linux)
+
+```bash
+brew tap outofcoffee/tap
+brew install mempeak
+```
+
+Or install directly:
+```bash
+brew install outofcoffee/tap/mempeak
+```
+
 ### Pre-built binaries
 
 Download the latest release from the [releases page](https://github.com/outofcoffee/mempeak/releases).
