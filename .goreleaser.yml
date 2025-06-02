@@ -1,0 +1,137 @@
+project_name: mempeak
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+      - freebsd
+    goarch:
+      - amd64
+      - arm64
+    goarm:
+      - 6
+      - 7
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+    flags:
+      - -trimpath
+
+archives:
+  - format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+    - goos: windows
+      format: zip
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^ci:'
+      - '^chore:'
+      - '^style:'
+      - Merge pull request
+      - Merge branch
+  groups:
+    - title: 'New Features'
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: 'Bug fixes'
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: 'Performance improvements'
+      regexp: '^.*?perf(\([[:word:]]+\))??!?:.+$'
+      order: 2
+    - title: Other
+      order: 999
+
+release:
+  github:
+    owner: outofcoffee
+    name: mempeak
+  name_template: "{{.ProjectName}} v{{.Version}}"
+  header: |
+    ## What's Changed
+    
+    This release contains the following changes:
+
+brews:
+  - name: mempeak
+    repository:
+      owner: outofcoffee
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    folder: Formula
+    homepage: https://github.com/outofcoffee/mempeak
+    description: "Monitor peak memory usage of processes, similar to 'time' but for memory"
+    license: MIT
+    test: |
+      system "#{bin}/mempeak echo 'test'"
+
+nfpms:
+  - file_name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    homepage: https://github.com/outofcoffee/mempeak
+    description: Monitor peak memory usage of processes, similar to 'time' but for memory
+    maintainer: OutOfCoffee <noreply@outofcoffee.dev>
+    license: MIT
+    vendor: OutOfCoffee
+    bindir: /usr/bin
+    section: utils
+    contents:
+      - src: ./README.md
+        dst: /usr/share/doc/mempeak/README.md
+      - src: ./LICENSE
+        dst: /usr/share/doc/mempeak/LICENSE
+    formats:
+    - apk
+    - deb
+    - rpm
+    - termux.deb
+    - archlinux
+
+aurs:
+  - name: mempeak-bin
+    homepage: https://github.com/outofcoffee/mempeak
+    description: Monitor peak memory usage of processes, similar to 'time' but for memory
+    maintainers:
+      - 'OutOfCoffee <noreply at outofcoffee dot dev>'
+    license: MIT
+    private_key: '{{ .Env.AUR_KEY }}'
+    git_url: 'ssh://aur@aur.archlinux.org/mempeak-bin.git'
+    depends:
+      - glibc
+    package: |-
+      # bin
+      install -Dm755 "./mempeak" "${pkgdir}/usr/bin/mempeak"
+      
+      # license
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/mempeak/LICENSE"
