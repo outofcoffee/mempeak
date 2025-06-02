@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.1.5] - 2025-06-02
+### Changed
+- build: update goreleaser config and CI
+
 ## [0.1.4] - 2025-06-02
 ### Changed
 - build: add release_notes.md to .gitignore
