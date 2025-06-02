@@ -20,6 +20,9 @@ go.work
 # Build output
 mempeak
 
+# Generated release files
+release_notes.md
+
 # IDE files
 .vscode/
 .idea/
