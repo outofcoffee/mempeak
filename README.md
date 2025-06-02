@@ -2,7 +2,7 @@
 
 A Unix command-line tool to monitor peak memory usage of processes, similar to `time` but for memory.
 
-[![Build Status](https://github.com/outofcoffee/mempeak/workflows/release/badge.svg)](https://github.com/outofcoffee/mempeak/actions)
+[![Build Status](https://github.com/outofcoffee/mempeak/workflows/ci/badge.svg)](https://github.com/outofcoffee/mempeak/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/outofcoffee/mempeak)](https://goreportcard.com/report/github.com/outofcoffee/mempeak)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -115,4 +115,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Inspired by the original [memusg](https://github.com/jhclark/memusg) by Jonathan Clark
-- Built as a more portable Go alternative with cross-platform support
+- Built as a portable Go alternative with cross-platform support
