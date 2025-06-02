@@ -8,12 +8,14 @@ A Unix command-line tool to monitor peak memory usage of processes, similar to `
 
 ## Overview
 
-`mempeak` is a Go port of the original `memusg` tool that monitors the peak memory usage of a command during its execution. It provides a simple, `time`-like interface for tracking memory consumption.
+`mempeak` is a Go port of the original `memusg` tool that monitors the peak memory usage of a command and all its subprocesses during execution. It provides a simple, `time`-like interface for tracking memory consumption across entire process trees.
 
 ## Features
 
 - **Cross-platform**: Works on Linux, macOS, and other Unix-like systems
 - **Simple interface**: Just prefix your command with `mempeak`
+- **Process tree tracking**: Monitors the entire process tree, including all subprocesses
+- **Per-process breakdown**: Shows memory usage for each process with PID and name
 - **Peak memory tracking**: Monitors memory usage throughout execution
 - **Human-readable output**: Displays memory in appropriate units (B, KB, MB, GB, etc.)
 - **Exit code preservation**: Maintains the exit code of the monitored command
@@ -76,23 +78,42 @@ mempeak make build
 
 ### Output
 
-`mempeak` outputs the peak memory usage to stderr after the command completes:
+`mempeak` outputs detailed memory usage information to stderr after the command completes, showing both per-process breakdown and total usage:
 
 ```
-$ mempeak node --max-old-space-size=512 my-script.js
+$ mempeak sh -c 'echo "parent"; (sleep 1; echo "child1") & (sleep 1; echo "child2") & wait'
+parent
+child1
+child2
+mempeak: process tree memory usage:
+  PID 12345 (sh): 1.8 MB
+  PID 12346 (sh): 1.3 MB
+  PID 12347 (sh): 1.4 MB
+  PID 12348 (sleep): 1.1 MB
+  PID 12349 (sleep): 1.1 MB
+mempeak: total peak memory usage: 6.8 MB
+```
+
+For commands that don't spawn subprocesses, the output shows just the main process:
+
+```
+$ mempeak node my-script.js
 ... (normal command output)
-mempeak: peak memory usage: 387.2 MB
+mempeak: process tree memory usage:
+  PID 12350 (node): 387.2 MB
+mempeak: total peak memory usage: 387.2 MB
 ```
 
 ## How it works
 
 1. Starts the target command as a child process
-2. Monitors memory usage in the background using:
-   - `/proc/pid/status` on Linux (more efficient)
+2. Continuously discovers all processes in the process tree (parent and children)
+3. Monitors memory usage for each process in the background using:
+   - `/proc/pid/status` and `/proc/pid/stat` on Linux (more efficient)
    - `ps` command on macOS/Unix systems (fallback)
-3. Tracks peak memory usage throughout execution (100ms polling interval)
-4. Reports the peak memory when the command completes
-5. Exits with the same code as the monitored command
+4. Tracks peak memory usage for each process throughout execution (100ms polling interval)
+5. Reports per-process breakdown and total peak memory when the command completes
+6. Exits with the same code as the monitored command
 
 ## Building
 
