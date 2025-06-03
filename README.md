@@ -2,14 +2,14 @@
 
 A Unix command-line tool to monitor peak memory usage of processes, similar to `time` but for memory.
 
-## Example
-
 [![Build Status](https://github.com/outofcoffee/mempeak/workflows/ci/badge.svg)](https://github.com/outofcoffee/mempeak/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/outofcoffee/mempeak)](https://goreportcard.com/report/github.com/outofcoffee/mempeak)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Example
+
 ```
-$ mempeak some-command
+$ mempeak somecommand
 ... (normal command output)
 
 total peak memory usage: 387.2 MB
