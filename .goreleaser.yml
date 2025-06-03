@@ -50,7 +50,25 @@ snapshot:
   name_template: "{{ incpatch .Version }}-next"
 
 changelog:
-  disable: true
+  disable: false
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - '^build:'
+      - '^ci:'
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 0
+    - title: Bug fixes
+      regexp: '^.*?fix(\(.+\))??!?:.+$'
+      order: 1
+    - title: Others
+      order: 999
 
 release:
   github:
@@ -60,34 +78,25 @@ release:
   extra_files:
     - glob: ./since.yaml
   header: |
-    ## mempeak {{.Tag}}
+    A Unix command-line tool to monitor peak memory usage of processes and their entire process tree.
     
-    A Unix command-line tool to monitor peak memory usage of processes.
+    ## What's Changed
   footer: |
     
     ---
     
-    **Installation**
+    ## Installation
     
     Download the appropriate binary for your platform from the assets below, or use:
     
+    ### Homebrew (macOS/Linux)
     ```bash
-    # Homebrew (macOS/Linux)
     brew install outofcoffee/tap/mempeak
+    ```
     
-    # Go install
+    ### Go install
+    ```bash
     go install github.com/outofcoffee/mempeak@{{.Tag}}
-    ```
-    
-    **Usage**
-    
-    ```bash
-    mempeak <command> [args...]
-    ```
-    
-    Example:
-    ```bash
-    mempeak python script.py
     ```
 
 brews:
